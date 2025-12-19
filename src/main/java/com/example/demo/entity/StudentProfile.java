@@ -1,72 +1,50 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Table(name = "student_profiles")
 public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
+    @Column(unique = true)
     private String studentId;
+
     private String name;
     private String email;
     private String program;
-    private int yearLevel;
 
-    public StudentProfile() {
-    }
+    @Column(nullable = false)
+    private Integer yearLevel;
 
-    public StudentProfile(int id, String studentId, String name,
-                          String email, String program, int yearLevel) {
-        this.id = id;
+    private Boolean repeatOffender = false;
+
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "studentProfile")
+    private List<IntegrityCase> integrityCases;
+
+    public StudentProfile() {}
+
+    public StudentProfile(String studentId, String name, String email) {
         this.studentId = studentId;
         this.name = name;
         this.email = email;
-        this.program = program;
-        this.yearLevel = yearLevel;
     }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 
-    public String getStudentId() {
-        return studentId;
-    }
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getProgram() {
-        return program;
-    }
-    public void setProgram(String program) {
-        this.program = program;
-    }
-
-    public int getYearLevel() {
-        return yearLevel;
-    }
-    public void setYearLevel(int yearLevel) {
-        this.yearLevel = yearLevel;
+    public Long getId() { return id; }
+    public Boolean getRepeatOffender() { return repeatOffender; }
+    public void setRepeatOffender(Boolean repeatOffender) {
+        this.repeatOffender = repeatOffender;
     }
 }
