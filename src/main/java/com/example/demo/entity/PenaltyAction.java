@@ -1,56 +1,30 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "penalty_actions")
 public class PenaltyAction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private String penaltyType;
-    private String remarks;
-
-    @ManyToOne
+    @ManyToOne(optional = false)
     private IntegrityCase integrityCase;
 
-    public PenaltyAction() {
-    }
+    private String penaltyType;
 
-    public PenaltyAction(int id, String penaltyType,
-                         String remarks, IntegrityCase integrityCase) {
-        this.id = id;
-        this.penaltyType = penaltyType;
-        this.remarks = remarks;
-        this.integrityCase = integrityCase;
-    }
+    @Column(length = 1000)
+    private String details;
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String issuedBy;
 
-    public String getPenaltyType() {
-        return penaltyType;
-    }
-    public void setPenaltyType(String penaltyType) {
-        this.penaltyType = penaltyType;
-    }
+    private LocalDateTime issuedAt;
 
-    public String getRemarks() {
-        return remarks;
-    }
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-    public IntegrityCase getIntegrityCase() {
-        return integrityCase;
-    }
-    public void setIntegrityCase(IntegrityCase integrityCase) {
-        this.integrityCase = integrityCase;
+    @PrePersist
+    protected void onCreate() {
+        this.issuedAt = LocalDateTime.now();
     }
 }
