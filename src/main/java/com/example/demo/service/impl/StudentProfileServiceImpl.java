@@ -1,15 +1,15 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.entity.StudentProfile;
 import com.example.demo.entity.IntegrityCase;
 import com.example.demo.entity.RepeatOffenderRecord;
-import com.example.demo.entity.StudentProfile;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.*;
+import com.example.demo.repository.StudentProfileRepository;
+import com.example.demo.repository.IntegrityCaseRepository;
+import com.example.demo.repository.RepeatOffenderRecordRepository;
 import com.example.demo.service.StudentProfileService;
 import com.example.demo.util.RepeatOffenderCalculator;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 
 @Service
@@ -51,6 +51,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     public StudentProfile updateRepeatOffenderStatus(Long studentId) {
         StudentProfile student = getStudentById(studentId);
         List<IntegrityCase> cases = caseRepo.findByStudentProfile_Id(studentId);
+
         RepeatOffenderRecord record = calculator.computeRepeatOffenderRecord(student, cases);
         repeatRepo.save(record);
 
