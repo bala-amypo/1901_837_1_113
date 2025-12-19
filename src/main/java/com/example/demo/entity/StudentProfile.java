@@ -38,13 +38,9 @@ public class StudentProfile {
     }
 
     @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
 
     public Long getId() { return id; }
     public Boolean getRepeatOffender() { return repeatOffender; }
-    public void setRepeatOffender(Boolean repeatOffender) {
-        this.repeatOffender = repeatOffender;
-    }
+    public void setRepeatOffender(Boolean repeatOffender) { this.repeatOffender = repeatOffender; }
 }

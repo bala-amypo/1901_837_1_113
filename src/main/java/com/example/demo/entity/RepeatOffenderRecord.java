@@ -20,11 +20,16 @@ public class RepeatOffenderRecord {
 
     public RepeatOffenderRecord() {}
 
-    public RepeatOffenderRecord(StudentProfile studentProfile,
-                                Integer totalCases,
-                                String flagSeverity) {
+    public RepeatOffenderRecord(StudentProfile studentProfile, Integer totalCases, String flagSeverity) {
         this.studentProfile = studentProfile;
         this.totalCases = totalCases;
         this.flagSeverity = flagSeverity;
     }
+
+    public StudentProfile getStudentProfile() { return studentProfile; }
+    public void setStudentProfile(StudentProfile studentProfile) { this.studentProfile = studentProfile; }
+    public Integer getTotalCases() { return totalCases; }
+    public void setTotalCases(Integer totalCases) { this.totalCases = totalCases; }
+    public String getFlagSeverity() { return flagSeverity; }
+    public void setFlagSeverity(String flagSeverity) { this.flagSeverity = flagSeverity; }
 }

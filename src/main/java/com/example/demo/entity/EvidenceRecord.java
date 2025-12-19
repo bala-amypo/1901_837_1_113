@@ -24,7 +24,8 @@ public class EvidenceRecord {
     private LocalDateTime submittedAt;
 
     @PrePersist
-    protected void onCreate() {
-        this.submittedAt = LocalDateTime.now();
-    }
+    protected void onCreate() { submittedAt = LocalDateTime.now(); }
+
+    public IntegrityCase getIntegrityCase() { return integrityCase; }
+    public void setIntegrityCase(IntegrityCase integrityCase) { this.integrityCase = integrityCase; }
 }

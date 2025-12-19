@@ -24,7 +24,8 @@ public class PenaltyAction {
     private LocalDateTime issuedAt;
 
     @PrePersist
-    protected void onCreate() {
-        this.issuedAt = LocalDateTime.now();
-    }
+    protected void onCreate() { issuedAt = LocalDateTime.now(); }
+
+    public IntegrityCase getIntegrityCase() { return integrityCase; }
+    public void setIntegrityCase(IntegrityCase integrityCase) { this.integrityCase = integrityCase; }
 }
