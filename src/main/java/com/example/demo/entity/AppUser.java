@@ -41,17 +41,15 @@ public class AppUser {
     }
 
     @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
 
+    // getters and setters
     public Long getId() { return id; }
     public String getFullName() { return fullName; }
     public String getEmail() { return email; }
     public String getPassword() { return password; }
     public Boolean getEnabled() { return enabled; }
     public Set<Role> getRoles() { return roles; }
-
     public void setPassword(String password) { this.password = password; }
     public void setRoles(Set<Role> roles) { this.roles = roles; }
 }
