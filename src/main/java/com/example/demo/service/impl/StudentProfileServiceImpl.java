@@ -45,7 +45,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
             student.setRepeatOffender(request.getRepeatOffender());
         }
 
-        return repository.save(student);
+        return studentProfileRepository.save(student);
     }
     
     @Override
