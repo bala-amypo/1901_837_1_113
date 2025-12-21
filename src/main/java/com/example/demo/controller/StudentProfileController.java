@@ -17,12 +17,18 @@ public class StudentProfileController {
         this.studentProfileService = studentProfileService;
     }
     
-    @PostMapping
-    public ResponseEntity<ApiResponse> createStudent(@RequestBody StudentRequests studentProfile) {
-        
-        StudentProfile created = studentProfileService.createStudent(studentProfile);
-        return ResponseEntity.ok(new ApiResponse(true, "Student created successfully", created));
-    }
+@PostMapping
+public ResponseEntity<ApiResponse> createStudent(
+        @RequestBody StudentRequests studentProfile) {
+
+    StudentProfile created =
+            studentProfileService.createStudent(studentProfile);
+
+    return ResponseEntity.ok(
+            new ApiResponse(true, "Student created successfully", created)
+    );
+}
+
     
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getStudent(@PathVariable Long id) {

@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.StudentProfile;
+import com.example.demo.entity.StudentRequest;
 import java.util.List;
 
 public interface StudentProfileService {

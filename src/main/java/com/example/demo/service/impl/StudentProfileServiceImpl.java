@@ -30,9 +30,21 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
     
     @Override
-    public StudentProfile createStudent(StudentProfile studentProfile) {
-        studentProfile.setRepeatOffender(false);
-        return studentProfileRepository.save(studentProfile);
+      public StudentProfile createStudent(StudentRequests request) {
+
+        StudentProfile student = new StudentProfile();
+
+        student.setStudentId(request.getStudentId());
+        student.setName(request.getName());
+        student.setEmail(request.getEmail());
+        student.setProgram(request.getProgram());
+        student.setYearLevel(request.getYearLevel());
+
+        if (request.getRepeatOffender() != null) {
+            student.setRepeatOffender(request.getRepeatOffender());
+        }
+
+        return repository.save(student);
     }
     
     @Override
