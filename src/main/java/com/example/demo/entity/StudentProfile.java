@@ -6,6 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "student_profiles")
+@
 public class StudentProfile {
 
     @Id
