@@ -1,5 +1,5 @@
 import lombok.*;
-
+import java.util.List;
 @Data
 public class StudentRequest {
     private String studentId;
@@ -8,4 +8,5 @@ public class StudentRequest {
     private String program;
     private Integer yearLevel;
     private Boolean repeatOffender;
+    private List integrityCases;
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
+
+import com.example.demo.dto.*;
 import com.example.demo.entity.StudentProfile;
 import com.example.demo.service.StudentProfileService;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class StudentProfileController {
     }
     
     @PostMapping
-    public ResponseEntity<ApiResponse> createStudent(@RequestBody StudentProfile studentProfile) {
+    public ResponseEntity<ApiResponse> createStudent(@RequestBody StudentRequest studentProfile) {
         StudentProfile created = studentProfileService.createStudent(studentProfile);
         return ResponseEntity.ok(new ApiResponse(true, "Student created successfully", created));
     }
