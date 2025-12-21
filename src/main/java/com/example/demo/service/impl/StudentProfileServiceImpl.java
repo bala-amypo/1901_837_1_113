@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.IntegrityCase;
 import com.example.demo.entity.RepeatOffenderRecord;
 import com.example.demo.entity.StudentProfile;
+import com.example.demo.dto.StudentRequests;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.IntegrityCaseRepository;
 import com.example.demo.repository.RepeatOffenderRecordRepository;
