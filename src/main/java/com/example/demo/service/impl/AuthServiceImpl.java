@@ -1,20 +1,17 @@
-@Override
-public void register(RegisterRequest request) {
+package com.example.demo.service.impl;
 
-    if (userRepository.existsByEmail(request.getEmail())) {
-        throw new IllegalArgumentException("Email already exists");
+import com.example.demo.service.AuthService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuthServiceImpl implements AuthService {
+
+    @Override
+    public String login(String username, String password) {
+        // TODO: replace with real authentication logic
+        if ("admin".equals(username) && "admin".equals(password)) {
+            return "Login successful";
+        }
+        return "Invalid credentials";
     }
-
-    Role role = roleRepository.findByName(request.getRoleName())
-            .orElseThrow(() -> new IllegalArgumentException("Role not found"));
-
-    AppUser user = new AppUser();
-    user.setFullName(request.getFullName());
-    user.setEmail(request.getEmail());
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
-    user.setEnabled(true);
-    user.setRoles(Set.of(role));
-    user.setCreatedAt(LocalDateTime.now());
-
-    userRepository.save(user);
 }
