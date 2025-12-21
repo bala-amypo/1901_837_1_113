@@ -14,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -45,7 +44,6 @@ public class AuthServiceImpl implements AuthService {
         
         AppUser user = new AppUser(registerRequest.getFullName(), registerRequest.getEmail(), 
                                    passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreatedAt(LocalDateTime.now());
         user.getRoles().add(role);
         
         appUserRepository.save(user);
