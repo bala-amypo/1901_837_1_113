@@ -7,10 +7,9 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.IntegrityCaseRepository;
 import com.example.demo.repository.RepeatOffenderRecordRepository;
 import com.example.demo.repository.StudentProfileRepository;
-import com.example.demo.service.StudentProfileService;
 import com.example.demo.util.RepeatOffenderCalculator;
+import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,7 +32,6 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public StudentProfile createStudent(StudentProfile studentProfile) {
         studentProfile.setRepeatOffender(false);
-        studentProfile.setCreatedAt(LocalDateTime.now());
         return studentProfileRepository.save(studentProfile);
     }
     
