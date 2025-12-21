@@ -1,7 +1,10 @@
+p
+
 import lombok.*;
+
 import java.util.List;
 @Data
-public class StudentRequest {
+public class StudentRequests {
     private String studentId;
     private String name;
     private String email;

@@ -18,7 +18,7 @@ public class StudentProfileController {
     }
     
     @PostMapping
-    public ResponseEntity<ApiResponse> createStudent(@RequestBody StudentRequest studentProfile) {
+    public ResponseEntity<ApiResponse> createStudent(@RequestBody StudentRequests studentProfile) {
         StudentProfile created = studentProfileService.createStudent(studentProfile);
         return ResponseEntity.ok(new ApiResponse(true, "Student created successfully", created));
     }
