@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.JwtResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
@@ -14,7 +15,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginRequest request) {
-        return "Login successful";
+    public JwtResponse login(LoginRequest request) {
+        // Temporary token for compilation & testing
+        return new JwtResponse("dummy-jwt-token");
     }
 }
