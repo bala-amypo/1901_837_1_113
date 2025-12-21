@@ -2,7 +2,9 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import lombok.*;
 
+@Data
 @Entity
 @Table(name = "repeat_offender_records")
 public class RepeatOffenderRecord {

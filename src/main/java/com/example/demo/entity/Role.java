@@ -2,7 +2,9 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.util.Set;
+import lombok.*;
 
+@Data
 @Entity
 @Table(name = "roles")
 public class Role {

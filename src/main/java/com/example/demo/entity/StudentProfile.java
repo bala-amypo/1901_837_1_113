@@ -3,10 +3,11 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import lombok.*;
 @Entity
+@Data
 @Table(name = "student_profiles")
-@
+
 public class StudentProfile {
 
     @Id
