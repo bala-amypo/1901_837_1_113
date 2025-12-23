@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RepeatOffenderRecordServiceImpl implements RepeatOffenderRecordService {
+public class RepeatOffenderRecordServiceImpl
+        implements RepeatOffenderRecordService {
 
     private final RepeatOffenderRecordRepository repeatOffenderRecordRepository;
 
-    public RepeatOffenderRecordServiceImpl(RepeatOffenderRecordRepository repeatOffenderRecordRepository) {
+    public RepeatOffenderRecordServiceImpl(
+            RepeatOffenderRecordRepository repeatOffenderRecordRepository) {
         this.repeatOffenderRecordRepository = repeatOffenderRecordRepository;
     }
 
