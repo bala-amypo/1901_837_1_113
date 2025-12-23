@@ -1,32 +1,21 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(
-    name = "roles",
-    uniqueConstraints = @UniqueConstraint(columnNames = "name")
-)
+@Table(name = "roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<AppUser> users = new HashSet<>();
+    // Getters
+    public Long getId() { return id; }
+    public String getName() { return name; }
 
-    public Role() {
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    // getters and setters
+    // Setters
+    public void setName(String name) { this.name = name; }
 }
