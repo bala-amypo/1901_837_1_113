@@ -11,11 +11,14 @@ public class StudentProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String identifier;
     private boolean repeatOffender;
     private LocalDateTime createdAt;
 
-    // Getters & Setters
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getIdentifier() { return identifier; }
+    public void setIdentifier(String identifier) { this.identifier = identifier; }
     public boolean isRepeatOffender() { return repeatOffender; }
     public void setRepeatOffender(boolean repeatOffender) { this.repeatOffender = repeatOffender; }
     public LocalDateTime getCreatedAt() { return createdAt; }
