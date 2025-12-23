@@ -13,7 +13,6 @@ public class EvidenceRecord {
     @ManyToOne
     private IntegrityCase integrityCase;
 
-    // Getters & Setters
     public Long getId() { return id; }
     public IntegrityCase getIntegrityCase() { return integrityCase; }
     public void setIntegrityCase(IntegrityCase integrityCase) { this.integrityCase = integrityCase; }
