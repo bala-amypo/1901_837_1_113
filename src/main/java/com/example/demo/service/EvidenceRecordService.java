@@ -4,7 +4,6 @@ import com.example.demo.entity.EvidenceRecord;
 import java.util.List;
 
 public interface EvidenceRecordService {
-    List<EvidenceRecord> getEvidenceByCase(Long caseId);
-    EvidenceRecord getEvidenceById(Long id);
+    EvidenceRecord submitEvidence(EvidenceRecord evidenceRecord);
     List<EvidenceRecord> getAllEvidence();
 }
