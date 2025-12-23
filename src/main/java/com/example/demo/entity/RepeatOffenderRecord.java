@@ -11,26 +11,21 @@ public class RepeatOffenderRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "student_profile_id")
+    @ManyToOne
     private StudentProfile studentProfile;
 
-    @Column(nullable = false)
-    private Integer totalCases;
-
+    private int totalCases;
+    private String flagSeverity;
     private LocalDate firstIncidentDate;
 
-    @Column(nullable = false)
-    private String flagSeverity;
-
-    public RepeatOffenderRecord() {
-    }
-
-    public RepeatOffenderRecord(StudentProfile studentProfile, Integer totalCases, String flagSeverity) {
-        this.studentProfile = studentProfile;
-        this.totalCases = totalCases;
-        this.flagSeverity = flagSeverity;
-    }
-
-    // getters and setters
+    // Getters & Setters
+    public Long getId() { return id; }
+    public StudentProfile getStudentProfile() { return studentProfile; }
+    public void setStudentProfile(StudentProfile studentProfile) { this.studentProfile = studentProfile; }
+    public int getTotalCases() { return totalCases; }
+    public void setTotalCases(int totalCases) { this.totalCases = totalCases; }
+    public String getFlagSeverity() { return flagSeverity; }
+    public void setFlagSeverity(String flagSeverity) { this.flagSeverity = flagSeverity; }
+    public LocalDate getFirstIncidentDate() { return firstIncidentDate; }
+    public void setFirstIncidentDate(LocalDate firstIncidentDate) { this.firstIncidentDate = firstIncidentDate; }
 }
