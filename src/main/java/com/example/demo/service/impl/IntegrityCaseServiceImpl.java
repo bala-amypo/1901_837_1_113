@@ -24,27 +24,26 @@ public class IntegrityCaseServiceImpl implements IntegrityCaseService {
     }
 
     @Override
+    public List<IntegrityCase> getAllCases() {
+        return integrityCaseRepository.findAll();
+    }
+
+    @Override
     public IntegrityCase createCase(IntegrityCase integrityCase) {
-        if (integrityCase.getStudentProfile() == null ||
-            integrityCase.getStudentProfile().getId() == null) {
+        if (integrityCase.getStudentProfile() == null || integrityCase.getStudentProfile().getId() == null) {
             throw new IllegalArgumentException("Student profile required");
         }
-
-        StudentProfile profile =
-                studentProfileRepository.findById(
-                        integrityCase.getStudentProfile().getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Student not found"));
-
+        StudentProfile profile = studentProfileRepository.findById(
+                integrityCase.getStudentProfile().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
         integrityCase.setStudentProfile(profile);
         return integrityCaseRepository.save(integrityCase);
     }
 
     @Override
     public IntegrityCase updateCaseStatus(Long caseId, String newStatus) {
-        IntegrityCase integrityCase =
-                integrityCaseRepository.findById(caseId)
-                        .orElseThrow(() -> new IllegalArgumentException("Case not found"));
-
+        IntegrityCase integrityCase = integrityCaseRepository.findById(caseId)
+                .orElseThrow(() -> new IllegalArgumentException("Case not found"));
         integrityCase.setStatus(newStatus);
         return integrityCaseRepository.save(integrityCase);
     }
@@ -57,11 +56,5 @@ public class IntegrityCaseServiceImpl implements IntegrityCaseService {
     @Override
     public Optional<IntegrityCase> getCaseById(Long caseId) {
         return integrityCaseRepository.findById(caseId);
-    }
-
-    // ✅ Implement missing method from interface
-    @Override
-    public List<IntegrityCase> getAllCases() {
-        return integrityCaseRepository.findAll();
     }
 }
