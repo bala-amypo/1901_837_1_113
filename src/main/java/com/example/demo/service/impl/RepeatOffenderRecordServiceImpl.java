@@ -5,6 +5,7 @@ import com.example.demo.entity.StudentProfile;
 import com.example.demo.repository.RepeatOffenderRecordRepository;
 import com.example.demo.service.RepeatOffenderRecordService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -30,6 +31,7 @@ public class RepeatOffenderRecordServiceImpl
 
     @Override
     public List<RepeatOffenderRecord> getByStudentProfile(StudentProfile studentProfile) {
+        // ✅ Now repository returns List — NO Optional
         return repeatOffenderRecordRepository.findByStudentProfile(studentProfile);
     }
 }
