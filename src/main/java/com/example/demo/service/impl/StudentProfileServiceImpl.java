@@ -20,6 +20,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     private final RepeatOffenderRecordRepository repeatOffenderRecordRepository;
     private final RepeatOffenderCalculator repeatOffenderCalculator;
 
+    // ⚠️ EXACT constructor order
     public StudentProfileServiceImpl(
             StudentProfileRepository studentProfileRepository,
             IntegrityCaseRepository integrityCaseRepository,
@@ -61,9 +62,12 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         RepeatOffenderRecord record =
                 repeatOffenderCalculator.computeRepeatOffenderRecord(profile, cases);
 
-        repeatOffenderRecordRepository.save(record);
-        studentProfileRepository.save(profile);
+        repeatOffenderRecordRepository
+                .findByStudentProfile(profile)
+                .ifPresent(existing -> record.setId(existing.getId()));
 
-        return profile;
+        repeatOffenderRecordRepository.save(record);
+
+        return studentProfileRepository.save(profile);
     }
 }
