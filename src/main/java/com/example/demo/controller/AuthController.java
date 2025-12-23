@@ -6,22 +6,24 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
+@Tag(name = "Authentication")
 public class AuthController {
 
     private final AuthService authService;
 
-    // constructor injection ONLY
+    // Constructor injection ONLY
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
     /**
-     * POST /auth/register
+     * POST /api/auth/register
      */
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(
@@ -35,7 +37,7 @@ public class AuthController {
     }
 
     /**
-     * POST /auth/login
+     * POST /api/auth/login
      */
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(

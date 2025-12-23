@@ -1,29 +1,51 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
 import com.example.demo.entity.RepeatOffenderRecord;
-import com.example.demo.entity.StudentProfile;
 import com.example.demo.service.RepeatOffenderRecordService;
-import com.example.demo.service.StudentProfileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/repeat-offenders")
+@RequestMapping("/api/repeat-offenders")
+@Tag(name = "Repeat Offenders")
 public class RepeatOffenderRecordController {
+
     private final RepeatOffenderRecordService repeatOffenderRecordService;
-    private final StudentProfileService studentProfileService;
-    
-    public RepeatOffenderRecordController(RepeatOffenderRecordService repeatOffenderRecordService,
-                                        StudentProfileService studentProfileService) {
+
+    public RepeatOffenderRecordController(
+            RepeatOffenderRecordService repeatOffenderRecordService) {
         this.repeatOffenderRecordService = repeatOffenderRecordService;
-        this.studentProfileService = studentProfileService;
     }
-    
-    @GetMapping("/{studentId}")
-    public ResponseEntity<ApiResponse> getRepeatOffenderRecord(@PathVariable Long studentId) {
-        StudentProfile student = studentProfileService.getStudentById(studentId);
-        RepeatOffenderRecord record = repeatOffenderRecordService.recalculateRecord(student);
-        return ResponseEntity.ok(new ApiResponse(true, "Record recalculated", record));
+
+    // POST /refresh/{studentId}
+    @PostMapping("/refresh/{studentId}")
+    public ResponseEntity<RepeatOffenderRecord> refreshRepeatOffender(
+            @PathVariable Long studentId) {
+
+        return ResponseEntity.ok(
+                repeatOffenderRecordService.refreshRepeatOffender(studentId)
+        );
+    }
+
+    // GET /student/{studentId}
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<RepeatOffenderRecord> getByStudent(
+            @PathVariable Long studentId) {
+
+        return ResponseEntity.ok(
+                repeatOffenderRecordService.getByStudent(studentId)
+        );
+    }
+
+    // GET /
+    @GetMapping
+    public ResponseEntity<List<RepeatOffenderRecord>> getAll() {
+        return ResponseEntity.ok(
+                repeatOffenderRecordService.getAll()
+        );
     }
 }
