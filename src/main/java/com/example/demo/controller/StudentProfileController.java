@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.ApiResponse;
 import com.example.demo.entity.StudentProfile;
 import com.example.demo.service.StudentProfileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
+@Tag(name = "Student Profiles")
 public class StudentProfileController {
 
     private final StudentProfileService studentProfileService;
@@ -19,33 +21,25 @@ public class StudentProfileController {
         this.studentProfileService = studentProfileService;
     }
 
-    /**
-     * POST /students
-     */
+    // POST /
     @PostMapping
     public ResponseEntity<StudentProfile> createStudent(
             @RequestBody StudentProfile studentProfile) {
-
         return ResponseEntity.ok(
                 studentProfileService.createStudent(studentProfile)
         );
     }
 
-    /**
-     * GET /students/{id}
-     */
+    // GET /{id}
     @GetMapping("/{id}")
     public ResponseEntity<StudentProfile> getStudentById(
             @PathVariable Long id) {
-
         return ResponseEntity.ok(
                 studentProfileService.getStudentById(id)
         );
     }
 
-    /**
-     * GET /students
-     */
+    // GET /
     @GetMapping
     public ResponseEntity<List<StudentProfile>> getAllStudents() {
         return ResponseEntity.ok(
@@ -53,17 +47,24 @@ public class StudentProfileController {
         );
     }
 
-    /**
-     * PUT /students/{id}/repeat-offender
-     */
-    @PutMapping("/{id}/repeat-offender")
-    public ResponseEntity<ApiResponse> updateRepeatOffenderStatus(
-            @PathVariable Long id) {
+    // PUT /{studentId}/repeat-status
+    @PutMapping("/{studentId}/repeat-status")
+    public ResponseEntity<ApiResponse> updateRepeatStatus(
+            @PathVariable Long studentId) {
 
-        studentProfileService.updateRepeatOffenderStatus(id);
-
+        studentProfileService.updateRepeatOffenderStatus(studentId);
         return ResponseEntity.ok(
                 new ApiResponse(true, "Repeat offender status updated")
+        );
+    }
+
+    // GET /lookup/{studentId}
+    @GetMapping("/lookup/{studentId}")
+    public ResponseEntity<StudentProfile> findByStudentIdentifier(
+            @PathVariable String studentId) {
+
+        return ResponseEntity.ok(
+                studentProfileService.getStudentByStudentIdentifier(studentId)
         );
     }
 }

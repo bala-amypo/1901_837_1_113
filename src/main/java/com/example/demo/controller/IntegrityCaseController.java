@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ApiResponse;
 import com.example.demo.entity.IntegrityCase;
 import com.example.demo.service.IntegrityCaseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cases")
+@RequestMapping("/api/cases")
+@Tag(name = "Integrity Cases")
 public class IntegrityCaseController {
 
     private final IntegrityCaseService integrityCaseService;
@@ -19,21 +20,16 @@ public class IntegrityCaseController {
         this.integrityCaseService = integrityCaseService;
     }
 
-    /**
-     * POST /cases
-     */
+    // POST /
     @PostMapping
     public ResponseEntity<IntegrityCase> createCase(
             @RequestBody IntegrityCase integrityCase) {
-
         return ResponseEntity.ok(
                 integrityCaseService.createCase(integrityCase)
         );
     }
 
-    /**
-     * PUT /cases/{id}/status
-     */
+    // PUT /{id}/status
     @PutMapping("/{id}/status")
     public ResponseEntity<IntegrityCase> updateCaseStatus(
             @PathVariable Long id,
@@ -44,9 +40,7 @@ public class IntegrityCaseController {
         );
     }
 
-    /**
-     * GET /cases/student/{studentId}
-     */
+    // GET /student/{studentId}
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<IntegrityCase>> getCasesByStudent(
             @PathVariable Long studentId) {
@@ -56,9 +50,7 @@ public class IntegrityCaseController {
         );
     }
 
-    /**
-     * GET /cases/{id}
-     */
+    // GET /{id}
     @GetMapping("/{id}")
     public ResponseEntity<IntegrityCase> getCaseById(
             @PathVariable Long id) {
@@ -66,5 +58,13 @@ public class IntegrityCaseController {
         return integrityCaseService.getCaseById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    // GET /
+    @GetMapping
+    public ResponseEntity<List<IntegrityCase>> getAllCases() {
+        return ResponseEntity.ok(
+                integrityCaseService.getAllCases()
+        );
     }
 }
