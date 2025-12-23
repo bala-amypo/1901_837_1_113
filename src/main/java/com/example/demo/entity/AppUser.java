@@ -4,26 +4,31 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.*;
 
-@Data
 @Entity
-@Table(name = "app_users")
+@Table(
+    name = "app_users",
+    uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String fullName;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private Boolean enabled = true;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -34,24 +39,17 @@ public class AppUser {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public AppUser() {}
+    public AppUser() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     public AppUser(String fullName, String email, String password) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
+        this.enabled = true;
+        this.createdAt = LocalDateTime.now();
     }
 
-    @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
-
     // getters and setters
-    public Long getId() { return id; }
-    public String getFullName() { return fullName; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public Boolean getEnabled() { return enabled; }
-    public Set<Role> getRoles() { return roles; }
-    public void setPassword(String password) { this.password = password; }
-    public void setRoles(Set<Role> roles) { this.roles = roles; }
 }

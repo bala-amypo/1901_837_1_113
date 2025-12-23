@@ -2,47 +2,58 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.*;
-@Entity
-@Data
-@Table(name = "student_profiles")
 
+@Entity
+@Table(name = "student_profiles")
 public class StudentProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false)
     private String studentId;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String email;
+
     private String program;
 
     @Column(nullable = false)
     private Integer yearLevel;
 
+    @Column(nullable = false)
     private Boolean repeatOffender = false;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "studentProfile")
-    private List<IntegrityCase> integrityCases;
+    @OneToMany(
+        mappedBy = "studentProfile",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<IntegrityCase> integrityCases = new ArrayList<>();
 
-    public StudentProfile() {}
+    public StudentProfile() {
+        this.createdAt = LocalDateTime.now();
+        this.repeatOffender = false;
+    }
 
-    public StudentProfile(String studentId, String name, String email) {
+    public StudentProfile(String studentId, String name, String email, String program, Integer yearLevel) {
         this.studentId = studentId;
         this.name = name;
         this.email = email;
+        this.program = program;
+        this.yearLevel = yearLevel;
+        this.repeatOffender = false;
+        this.createdAt = LocalDateTime.now();
     }
 
-    @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); }
-
-    public Long getId() { return id; }
-    public Boolean getRepeatOffender() { return repeatOffender; }
-    public void setRepeatOffender(Boolean repeatOffender) { this.repeatOffender = repeatOffender; }
+    // getters and setters
 }
