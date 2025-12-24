@@ -1,47 +1,50 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "penalty_actions")
 public class PenaltyAction {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String actionType;
-    private String remarks;
-
-    @ManyToOne
-    @JoinColumn(name = "case_id")
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "integrity_case_id", nullable = false)
     private IntegrityCase integrityCase;
-
+    
+    @Column(nullable = false)
+    private String penaltyType;
+    
+    @Column(columnDefinition = "TEXT")
+    private String details;
+    
+    private String issuedBy;
+    
+    @Column(nullable = false)
+    private LocalDateTime issuedAt = LocalDateTime.now();
+    
+    // Constructors
     public PenaltyAction() {}
-
+    
+    // Getters and Setters
     public Long getId() { return id; }
-
-    public String getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(String actionType) {
-        this.actionType = actionType;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-    public IntegrityCase getIntegrityCase() {
-        return integrityCase;
-    }
-
-    public void setIntegrityCase(IntegrityCase integrityCase) {
-        this.integrityCase = integrityCase;
-    }
+    public void setId(Long id) { this.id = id; }
+    
+    public IntegrityCase getIntegrityCase() { return integrityCase; }
+    public void setIntegrityCase(IntegrityCase integrityCase) { this.integrityCase = integrityCase; }
+    
+    public String getPenaltyType() { return penaltyType; }
+    public void setPenaltyType(String penaltyType) { this.penaltyType = penaltyType; }
+    
+    public String getDetails() { return details; }
+    public void setDetails(String details) { this.details = details; }
+    
+    public String getIssuedBy() { return issuedBy; }
+    public void setIssuedBy(String issuedBy) { this.issuedBy = issuedBy; }
+    
+    public LocalDateTime getIssuedAt() { return issuedAt; }
+    public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; }
 }
