@@ -2,37 +2,42 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.StudentProfile;
 import com.example.demo.service.StudentProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentProfileController {
-
-    private final StudentProfileService service;
-
-    public StudentProfileController(StudentProfileService service) {
-        this.service = service;
+    
+    private final StudentProfileService studentProfileService;
+    
+    public StudentProfileController(StudentProfileService studentProfileService) {
+        this.studentProfileService = studentProfileService;
     }
-
+    
     @PostMapping
-    public StudentProfile create(@RequestBody StudentProfile s) {
-        return service.createStudent(s);
+    public ResponseEntity<StudentProfile> createStudent(@RequestBody StudentProfile studentProfile) {
+        StudentProfile created = studentProfileService.createStudent(studentProfile);
+        return ResponseEntity.ok(created);
     }
-
+    
     @GetMapping("/{id}")
-    public StudentProfile get(@PathVariable Long id) {
-        return service.getStudentById(id);
+    public ResponseEntity<StudentProfile> getStudent(@PathVariable Long id) {
+        StudentProfile student = studentProfileService.getStudentById(id);
+        return ResponseEntity.ok(student);
     }
-
+    
     @GetMapping
-    public List<StudentProfile> all() {
-        return service.getAllStudents();
+    public ResponseEntity<List<StudentProfile>> getAllStudents() {
+        List<StudentProfile> students = studentProfileService.getAllStudents();
+        return ResponseEntity.ok(students);
     }
-
-    @PutMapping("/{id}/repeat-status")
-    public StudentProfile updateRepeat(@PathVariable Long id) {
-        return service.updateRepeatOffenderStatus(id);
+    
+    @PutMapping("/{id}/repeat-offender")
+    public ResponseEntity<StudentProfile> updateRepeatOffenderStatus(@PathVariable Long id) {
+        StudentProfile updated = studentProfileService.updateRepeatOffenderStatus(id);
+        return ResponseEntity.ok(updated);
     }
 }
