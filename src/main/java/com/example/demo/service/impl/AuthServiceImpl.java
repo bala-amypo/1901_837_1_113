@@ -54,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponse login(LoginRequest request) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -73,6 +74,12 @@ public class AuthServiceImpl implements AuthService {
                 role
         );
 
-        return new JwtResponse(token, user.getEmail(), role);
+        // ✅ FIXED CONSTRUCTOR
+        return new JwtResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                role
+        );
     }
 }

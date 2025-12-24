@@ -49,7 +49,10 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     @Override
     public StudentProfile updateRepeatOffenderStatus(Long id) {
         StudentProfile student = getStudentById(id);
-        List<IntegrityCase> cases = caseRepo.findByStudentProfile(student);
+
+        // ✅ FIXED METHOD
+        List<IntegrityCase> cases =
+                caseRepo.findByStudentProfile_Id(student.getId());
 
         RepeatOffenderRecord record =
                 calculator.computeRepeatOffenderRecord(student, cases);
