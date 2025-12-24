@@ -1,27 +1,16 @@
 package com.example.demo.security;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
-
+import jakarta.servlet.http.*;
 import java.io.IOException;
 
-@Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JwtAuthenticationEntryPoint
+        implements org.springframework.security.web.AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException)
-            throws IOException, ServletException {
-
-        // Return 401 Unauthorized with a simple message
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.getWriter().write("{\"success\":false,\"message\":\"Unauthorized: " +
-                authException.getMessage() + "\"}");
+    public void commence(HttpServletRequest req,
+                         HttpServletResponse res,
+                         org.springframework.security.core.AuthenticationException e)
+            throws IOException {
+        res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
 }
