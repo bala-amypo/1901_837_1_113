@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IntegrityCaseService {
-    List<IntegrityCase> getAllCases();
-    IntegrityCase createCase(IntegrityCase integrityCase);
-    IntegrityCase updateCaseStatus(Long caseId, String newStatus);
-    List<IntegrityCase> getCasesByStudent(Long studentId);
-    Optional<IntegrityCase> getCaseById(Long caseId);
+    IntegrityCase createCase(IntegrityCase c);
+    IntegrityCase updateCaseStatus(Long id, String status);
+    List<IntegrityCase> getCasesByStudent(Long id);
+    Optional<IntegrityCase> getCaseById(Long id);
 }

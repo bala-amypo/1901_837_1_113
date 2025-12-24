@@ -4,11 +4,10 @@ import com.example.demo.entity.RepeatOffenderRecord;
 import com.example.demo.entity.StudentProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface RepeatOffenderRecordRepository
         extends JpaRepository<RepeatOffenderRecord, Long> {
 
-    // ✅ MUST be List — NOT Optional
-    List<RepeatOffenderRecord> findByStudentProfile(StudentProfile studentProfile);
+    Optional<RepeatOffenderRecord> findByStudentProfile(StudentProfile studentProfile);
 }
