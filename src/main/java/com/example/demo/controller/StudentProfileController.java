@@ -2,38 +2,37 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.StudentProfile;
 import com.example.demo.service.StudentProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/students")
 public class StudentProfileController {
 
-    @Autowired
-    private StudentProfileService studentProfileService;
+    private final StudentProfileService service;
 
-    @GetMapping
-    public ResponseEntity<List<StudentProfile>> getAllStudents() {
-        return ResponseEntity.ok(studentProfileService.getAllStudents());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<StudentProfile> getStudentById(@PathVariable Long id) {
-        return studentProfileService.getStudentById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public StudentProfileController(StudentProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<StudentProfile> createStudent(@RequestBody StudentProfile studentProfile) {
-        return ResponseEntity.ok(studentProfileService.createStudent(studentProfile));
+    public StudentProfile create(@RequestBody StudentProfile s) {
+        return service.createStudent(s);
     }
 
-    @PutMapping("/{id}/repeat-offender")
-    public ResponseEntity<Void> updateRepeatOffenderStatus(@PathVariable Long id) {
-        studentProfileService.updateRepeatOffenderStatus(id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/{id}")
+    public StudentProfile get(@PathVariable Long id) {
+        return service.getStudentById(id);
+    }
+
+    @GetMapping
+    public List<StudentProfile> all() {
+        return service.getAllStudents();
+    }
+
+    @PutMapping("/{id}/repeat-status")
+    public StudentProfile updateRepeat(@PathVariable Long id) {
+        return service.updateRepeatOffenderStatus(id);
     }
 }
