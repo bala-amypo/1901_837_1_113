@@ -17,7 +17,7 @@ public class PenaltyAction {
     private String details;
     private String issuedBy;
     
-    // Fix: Initialize immediately for "testPenaltyActionHasTimestamp"
+    // FIX: Initialize immediately for unit tests
     private LocalDateTime issuedAt = LocalDateTime.now();
 
     @PrePersist

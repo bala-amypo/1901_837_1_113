@@ -17,7 +17,7 @@ public class StudentProfile {
     private String program;
     private Integer yearLevel;
     
-    // Fix: Initialize immediately for "testStudentProfileDefaults"
+    // FIX: Initialize immediately so tests see the value without saving to DB
     private Boolean repeatOffender = false;
     private LocalDateTime createdAt = LocalDateTime.now(); 
 
@@ -28,6 +28,7 @@ public class StudentProfile {
 
     @PrePersist
     public void onCreate() {
+        // Backup check for DB persistence
         if (this.createdAt == null) this.createdAt = LocalDateTime.now();
         if (this.repeatOffender == null) this.repeatOffender = false;
     }
