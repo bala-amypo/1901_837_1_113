@@ -7,5 +7,5 @@ public interface StudentProfileService {
     StudentProfile createStudent(StudentProfile s);
     StudentProfile getStudentById(Long id);
     List<StudentProfile> getAllStudents();
-    StudentProfile updateRepeatOffenderStatus(Long id);
+    StudentProfile updateRepeatOffenderStatus(Long studentId);
 }

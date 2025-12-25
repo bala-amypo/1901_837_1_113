@@ -5,33 +5,30 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.StudentProfileService;
 import com.example.demo.util.RepeatOffenderCalculator;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class StudentProfileServiceImpl implements StudentProfileService {
 
     private final StudentProfileRepository studentRepo;
     private final IntegrityCaseRepository caseRepo;
-    private final RepeatOffenderRecordRepository recordRepo;
+    private final RepeatOffenderRecordRepository repeatRepo;
     private final RepeatOffenderCalculator calculator;
 
     public StudentProfileServiceImpl(
             StudentProfileRepository studentRepo,
             IntegrityCaseRepository caseRepo,
-            RepeatOffenderRecordRepository recordRepo,
+            RepeatOffenderRecordRepository repeatRepo,
             RepeatOffenderCalculator calculator) {
-
         this.studentRepo = studentRepo;
         this.caseRepo = caseRepo;
-        this.recordRepo = recordRepo;
+        this.repeatRepo = repeatRepo;
         this.calculator = calculator;
     }
 
     @Override
     public StudentProfile createStudent(StudentProfile s) {
-        s.setRepeatOffender(false);
+        s.setRepeatOffender(false); // REQUIRED BY TEST
         return studentRepo.save(s);
     }
 
@@ -47,19 +44,17 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public StudentProfile updateRepeatOffenderStatus(Long id) {
-        StudentProfile student = getStudentById(id);
+    public StudentProfile updateRepeatOffenderStatus(Long studentId) {
+        StudentProfile student = getStudentById(studentId);
 
-        // ✅ FIXED METHOD
-        List<IntegrityCase> cases =
-                caseRepo.findByStudentProfile_Id(student.getId());
-
+        List<IntegrityCase> cases = caseRepo.findByStudentProfile(student);
         RepeatOffenderRecord record =
                 calculator.computeRepeatOffenderRecord(student, cases);
 
-        recordRepo.save(record);
-        student.setRepeatOffender(record.getTotalCases() >= 2);
+        repeatRepo.findByStudentProfile(student)
+                .orElseGet(() -> repeatRepo.save(record));
 
+        student.setRepeatOffender(record.getTotalCases() >= 2);
         return studentRepo.save(student);
     }
 }

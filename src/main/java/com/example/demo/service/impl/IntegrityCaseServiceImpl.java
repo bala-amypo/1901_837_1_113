@@ -3,12 +3,10 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.IntegrityCaseService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public class IntegrityCaseServiceImpl implements IntegrityCaseService {
 
     private final IntegrityCaseRepository caseRepo;
@@ -17,23 +15,20 @@ public class IntegrityCaseServiceImpl implements IntegrityCaseService {
     public IntegrityCaseServiceImpl(
             IntegrityCaseRepository caseRepo,
             StudentProfileRepository studentRepo) {
-
         this.caseRepo = caseRepo;
         this.studentRepo = studentRepo;
     }
 
     @Override
     public IntegrityCase createCase(IntegrityCase c) {
-        if (c.getStudentProfile() == null || c.getStudentProfile().getId() == null) {
-            throw new IllegalArgumentException("Student is required");
-        }
+        if (c.getStudentProfile() == null || c.getStudentProfile().getId() == null)
+            throw new IllegalArgumentException("Student required");
 
-        StudentProfile student = studentRepo.findById(c.getStudentProfile().getId())
+        StudentProfile s = studentRepo.findById(c.getStudentProfile().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Student not found"));
 
-        c.setStudentProfile(student);
+        c.setStudentProfile(s);
         c.setStatus("OPEN");
-
         return caseRepo.save(c);
     }
 
@@ -41,14 +36,13 @@ public class IntegrityCaseServiceImpl implements IntegrityCaseService {
     public IntegrityCase updateCaseStatus(Long id, String status) {
         IntegrityCase c = caseRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Case not found"));
-
         c.setStatus(status);
         return caseRepo.save(c);
     }
 
     @Override
-    public List<IntegrityCase> getCasesByStudent(Long id) {
-        return caseRepo.findByStudentProfile_Id(id);
+    public List<IntegrityCase> getCasesByStudent(Long studentId) {
+        return caseRepo.findByStudentProfile_Id(studentId);
     }
 
     @Override
