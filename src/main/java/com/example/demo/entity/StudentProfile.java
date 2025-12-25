@@ -16,15 +16,19 @@ public class StudentProfile {
     private String email;
     private String program;
     private Integer yearLevel;
+    
+    // Fix: Initialize immediately for "testStudentProfileDefaults"
     private Boolean repeatOffender = false;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now(); 
 
     @OneToMany(mappedBy = "studentProfile")
     private List<IntegrityCase> integrityCases = new ArrayList<>();
 
+    public StudentProfile() {}
+
     @PrePersist
     public void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
         if (this.repeatOffender == null) this.repeatOffender = false;
     }
 

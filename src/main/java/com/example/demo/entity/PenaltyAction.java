@@ -16,11 +16,13 @@ public class PenaltyAction {
     private String penaltyType;
     private String details;
     private String issuedBy;
-    private LocalDateTime issuedAt;
+    
+    // Fix: Initialize immediately for "testPenaltyActionHasTimestamp"
+    private LocalDateTime issuedAt = LocalDateTime.now();
 
     @PrePersist
     public void onCreate() {
-        this.issuedAt = LocalDateTime.now();
+        if (this.issuedAt == null) this.issuedAt = LocalDateTime.now();
     }
 
     // Getters and Setters

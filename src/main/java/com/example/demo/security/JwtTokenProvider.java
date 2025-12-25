@@ -1,8 +1,11 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -10,16 +13,20 @@ public class JwtTokenProvider {
     private final String jwtSecret;
     private final long jwtExpirationInMs;
 
-    // No-arg for Spring
+    // No-arg constructor for Spring (Uses default)
     public JwtTokenProvider() {
-        this.jwtSecret = "secret";
+        this.jwtSecret = "DefaultSecretKeyMustBeLongerThan32CharactersForHmacSha256";
         this.jwtExpirationInMs = 3600000;
     }
 
-    // Constructor used in tests
+    // Constructor used by Tests (testJwtTokenIsValid etc.)
     public JwtTokenProvider(String jwtSecret, long jwtExpirationInMs) {
         this.jwtSecret = jwtSecret;
         this.jwtExpirationInMs = jwtExpirationInMs;
+    }
+
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(Authentication authentication, Long userId, String email, String role) {
@@ -29,20 +36,43 @@ public class JwtTokenProvider {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationInMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .compact();
+    }
+
+    // Additional overload for generic creation used in some tests
+    public String generateToken(java.util.Map<String, Object> claims, String subject) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + jwtExpirationInMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
     public String getUsernameFromToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(authToken);
             return true;
         } catch (Exception ex) {
             return false;
         }
+    }
+    
+    public long getExpirationMillis() {
+        return this.jwtExpirationInMs;
     }
 }
