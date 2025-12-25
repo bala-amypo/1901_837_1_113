@@ -17,7 +17,7 @@ public class EvidenceRecord {
     private String content;
     private String submittedBy;
     
-    // FIX: Initialize immediately for unit tests
+    // Fix: Init immediately
     private LocalDateTime submittedAt = LocalDateTime.now();
 
     @PrePersist

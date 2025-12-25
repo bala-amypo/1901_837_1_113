@@ -14,13 +14,11 @@ public class JwtTokenProvider {
     private final String jwtSecret;
     private final long jwtExpirationInMs;
 
-    // 1. Default constructor for Spring Boot application (runtime)
     public JwtTokenProvider() {
         this.jwtSecret = "DefaultSecretKeyMustBeLongerThan32CharactersForHmacSha256";
         this.jwtExpirationInMs = 3600000;
     }
 
-    // 2. Constructor used by TEST CASES (t58, t59, etc.)
     public JwtTokenProvider(String jwtSecret, long jwtExpirationInMs) {
         this.jwtSecret = jwtSecret;
         this.jwtExpirationInMs = jwtExpirationInMs;
@@ -37,18 +35,17 @@ public class JwtTokenProvider {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationInMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // CHANGED TO HS256
                 .compact();
     }
 
-    // FIX: Added this method because some tests call generateToken with Map<String, Object>
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + jwtExpirationInMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // CHANGED TO HS256
                 .compact();
     }
 
@@ -73,7 +70,6 @@ public class JwtTokenProvider {
         }
     }
     
-    // Required by test t51
     public long getExpirationMillis() {
         return this.jwtExpirationInMs;
     }

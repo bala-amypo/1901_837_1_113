@@ -17,18 +17,15 @@ public class StudentProfile {
     private String program;
     private Integer yearLevel;
     
-    // FIX: Initialize immediately so tests see the value without saving to DB
+    // Fix: Init immediately
     private Boolean repeatOffender = false;
-    private LocalDateTime createdAt = LocalDateTime.now(); 
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "studentProfile")
     private List<IntegrityCase> integrityCases = new ArrayList<>();
 
-    public StudentProfile() {}
-
     @PrePersist
     public void onCreate() {
-        // Backup check for DB persistence
         if (this.createdAt == null) this.createdAt = LocalDateTime.now();
         if (this.repeatOffender == null) this.repeatOffender = false;
     }
