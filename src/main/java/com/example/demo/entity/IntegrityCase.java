@@ -1,14 +1,16 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "integrity_cases")
 public class IntegrityCase {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -19,12 +21,18 @@ public class IntegrityCase {
     private String description;
     private String status = "OPEN";
     private LocalDate incidentDate;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "integrityCase")
     private List<PenaltyAction> penalties = new ArrayList<>();
 
-    // getters & setters
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.status == null) this.status = "OPEN";
+    }
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public StudentProfile getStudentProfile() { return studentProfile; }
@@ -39,5 +47,8 @@ public class IntegrityCase {
     public void setStatus(String status) { this.status = status; }
     public LocalDate getIncidentDate() { return incidentDate; }
     public void setIncidentDate(LocalDate incidentDate) { this.incidentDate = incidentDate; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public List<PenaltyAction> getPenalties() { return penalties; }
+    public void setPenalties(List<PenaltyAction> penalties) { this.penalties = penalties; }
 }

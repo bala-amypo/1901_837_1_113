@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "penalty_actions")
 public class PenaltyAction {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -16,9 +16,14 @@ public class PenaltyAction {
     private String penaltyType;
     private String details;
     private String issuedBy;
-    private LocalDateTime issuedAt = LocalDateTime.now();
+    private LocalDateTime issuedAt;
 
-    // getters & setters
+    @PrePersist
+    public void onCreate() {
+        this.issuedAt = LocalDateTime.now();
+    }
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public IntegrityCase getIntegrityCase() { return integrityCase; }
@@ -30,4 +35,5 @@ public class PenaltyAction {
     public String getIssuedBy() { return issuedBy; }
     public void setIssuedBy(String issuedBy) { this.issuedBy = issuedBy; }
     public LocalDateTime getIssuedAt() { return issuedAt; }
+    public void setIssuedAt(LocalDateTime issuedAt) { this.issuedAt = issuedAt; }
 }

@@ -2,28 +2,33 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "student_profiles")
 public class StudentProfile {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String studentId;
     private String name;
     private String email;
     private String program;
     private Integer yearLevel;
-
     private Boolean repeatOffender = false;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "studentProfile")
     private List<IntegrityCase> integrityCases = new ArrayList<>();
 
-    // getters & setters
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.repeatOffender == null) this.repeatOffender = false;
+    }
+
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getStudentId() { return studentId; }
@@ -39,5 +44,7 @@ public class StudentProfile {
     public Boolean getRepeatOffender() { return repeatOffender; }
     public void setRepeatOffender(Boolean repeatOffender) { this.repeatOffender = repeatOffender; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public List<IntegrityCase> getIntegrityCases() { return integrityCases; }
+    public void setIntegrityCases(List<IntegrityCase> integrityCases) { this.integrityCases = integrityCases; }
 }
