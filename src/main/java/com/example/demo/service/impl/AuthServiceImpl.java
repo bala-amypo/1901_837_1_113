@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.AppUser;
-import com.example.demo.entity.Role;
 import com.example.demo.repository.AppUserRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.security.JwtUtil;
@@ -34,17 +33,13 @@ public class AuthServiceImpl implements AuthService {
         if (userRepo.existsByEmail(email))
             throw new RuntimeException("User already exists");
 
-        Role role = roleRepo.findByName("USER")
-                .orElseGet(() -> {
-                    Role r = new Role();
-                    r.setName("USER");
-                    return roleRepo.save(r);
-                });
+        // Just ensure role exists (no setters used)
+        roleRepo.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("Role USER not found"));
 
         AppUser user = new AppUser();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
-        user.setRole(role);
 
         userRepo.save(user);
         return jwtUtil.generateToken(email);
