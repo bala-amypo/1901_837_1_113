@@ -3,9 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.PenaltyActionService;
-import org.springframework.stereotype.Service;
 
-@Service
 public class PenaltyActionServiceImpl implements PenaltyActionService {
 
     private final PenaltyActionRepository penaltyRepo;
@@ -14,7 +12,6 @@ public class PenaltyActionServiceImpl implements PenaltyActionService {
     public PenaltyActionServiceImpl(
             PenaltyActionRepository penaltyRepo,
             IntegrityCaseRepository caseRepo) {
-
         this.penaltyRepo = penaltyRepo;
         this.caseRepo = caseRepo;
     }
