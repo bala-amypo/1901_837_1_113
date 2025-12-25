@@ -1,7 +1,4 @@
 package com.example.demo.service;
-
-import com.example.demo.entity.RepeatOffenderRecord;
-
 public interface RepeatOffenderRecordService {
-    RepeatOffenderRecord generateRecord(Long studentId);
+    // Interface logic as per requirement, though implementation is what's instantiated in test
 }

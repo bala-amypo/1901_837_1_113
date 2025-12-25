@@ -1,5 +1,4 @@
 package com.example.demo.service;
-
 import com.example.demo.entity.IntegrityCase;
 import java.util.List;
 import java.util.Optional;

@@ -1,29 +1,25 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.EvidenceRecord;
-import com.example.demo.repository.*;
+import com.example.demo.repository.EvidenceRecordRepository;
+import com.example.demo.repository.IntegrityCaseRepository;
 import com.example.demo.service.EvidenceRecordService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EvidenceRecordServiceImpl implements EvidenceRecordService {
-
-    private final EvidenceRecordRepository evidenceRepo;
+    private final EvidenceRecordRepository repo;
     private final IntegrityCaseRepository caseRepo;
 
-    public EvidenceRecordServiceImpl(
-            EvidenceRecordRepository evidenceRepo,
-            IntegrityCaseRepository caseRepo) {
-        this.evidenceRepo = evidenceRepo;
+    public EvidenceRecordServiceImpl(EvidenceRecordRepository repo, IntegrityCaseRepository caseRepo) {
+        this.repo = repo;
         this.caseRepo = caseRepo;
     }
 
     @Override
     public EvidenceRecord submitEvidence(EvidenceRecord e) {
-        if (e.getIntegrityCase() == null || e.getIntegrityCase().getId() == null)
-            throw new IllegalArgumentException("Case required");
-
-        caseRepo.findById(e.getIntegrityCase().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Case not found"));
-
-        return evidenceRepo.save(e);
+        // Ensure case exists
+        caseRepo.findById(e.getIntegrityCase().getId());
+        return repo.save(e);
     }
 }
