@@ -16,11 +16,13 @@ public class EvidenceRecord {
     private String evidenceType;
     private String content;
     private String submittedBy;
-    private LocalDateTime submittedAt;
+    
+    // Fix: Initialize immediately for "testEvidenceRecordHasTimestamp"
+    private LocalDateTime submittedAt = LocalDateTime.now();
 
     @PrePersist
     public void onCreate() {
-        this.submittedAt = LocalDateTime.now();
+        if (this.submittedAt == null) this.submittedAt = LocalDateTime.now();
     }
 
     // Getters and Setters
