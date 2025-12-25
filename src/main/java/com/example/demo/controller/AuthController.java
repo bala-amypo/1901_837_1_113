@@ -1,13 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.*;
 import com.example.demo.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication")
 public class AuthController {
-
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
@@ -15,16 +18,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(
-            @RequestParam String username,
-            @RequestParam String password) {
-        return ResponseEntity.ok(authService.register(username, password));
+    @Operation(summary = "Register user")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest req) {
+        authService.register(req);
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
-            @RequestParam String username,
-            @RequestParam String password) {
-        return ResponseEntity.ok(authService.login(username, password));
+    @Operation(summary = "Login user")
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest req) {
+        return ResponseEntity.ok(authService.login(req));
     }
 }
