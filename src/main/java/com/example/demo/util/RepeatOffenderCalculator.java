@@ -20,7 +20,7 @@ public class RepeatOffenderCalculator {
             record.setFlagSeverity("MEDIUM");
         } else if (count >= 1) {
             record.setFlagSeverity("LOW");
-        } else {`
+        } else {
             record.setFlagSeverity("NONE");
         }
         return record;
